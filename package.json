@@ -1,0 +1,30 @@
+{
+  "name": "custom-element-loader",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/cjs/custom-element-loader.js",
+  "type": "module",
+  "scripts": {
+    "test": "c8 tap index.test.js --no-coverage",
+    "test:html": "c8 --reporter=html tap --no-coverage",
+    "dist": "rollup --config",
+    "examples": "browser-sync start --server --startPath '/examples/index.html' --files './**/*.{html,htm,css,js}' -w"
+  },
+  "exports": {
+    "import": "./dist/esm/custom-element-loader.js",
+    "require": "./dist/cjs/custom-element-loader.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "browser-sync": "^2.27.7",
+    "c8": "^7.11.0",
+    "eslint": "^8.6.0",
+    "linkedom": "^0.13.0",
+    "lite-server": "^2.6.1",
+    "rollup": "^2.62.0",
+    "rollup-plugin-terser": "^7.0.2",
+    "tap": "^15.1.5"
+  }
+}
