@@ -7,9 +7,9 @@
  */
 
 /**
- * Creates a Custom Element
+ * Loads custom element dependencies
  * @param {CustomElementSettings} settings
- * @returns {void}
+ * @returns {Promise}
  */
 export function loadCustomElement(settings) {
   const { templatePath } = settings;
@@ -37,7 +37,7 @@ function handleTemplateLoaded(settings) {
 
 /**
  * @param {Error} error
- * @returns {void}
+ * @returns {Error}
  */
 function handleTemplateError(error) {
   // eslint-disable-next-line no-console
@@ -65,17 +65,18 @@ function addElementTemplate(elementSettings, text) {
  * @returns {void}
  */
 function addElementCSS(cssPath) {
-  const style = create('link');
-  style.setAttribute('rel', 'stylesheet');
-  style.setAttribute('href', cssPath);
+  const style = create('link', {
+    rel: 'stylesheet',
+    href: cssPath,
+  });
   document.head.append(style);
+
   return new Promise(resolve => {
     style.onload = resolve;
-    // Resolve so we can continue loading the template
     style.onerror = error => {
       // eslint-disable-next-line no-console
       console.error('Error loading css ', error);
-      resolve();
+      resolve(); // Even though an error resolve so we can create the template
     };
   });
 }
@@ -83,9 +84,13 @@ function addElementCSS(cssPath) {
 /**
  * Utility for creating an element
  * @param {string} tag
- * @returns {void}
+ * @param {object} attrs
+ * @returns {HTMLElement}
  */
-function create(tag) {
+function create(tag, attrs = {}) {
   const el = document.createElement(tag);
+  Object.keys(attrs).forEach(key => {
+    el.setAttribute(key, attrs[key]);
+  });
   return el;
 }
