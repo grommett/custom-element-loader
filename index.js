@@ -14,7 +14,7 @@
 export function loadCustomElement(settings) {
   const { templatePath } = settings;
   return fetch(templatePath)
-    .then(response => response.text())
+    .then((response) => response.text())
     .then(handleTemplateLoaded(settings))
     .catch(handleTemplateError);
 }
@@ -25,7 +25,7 @@ export function loadCustomElement(settings) {
  * @returns {() => void}
  */
 function handleTemplateLoaded(settings) {
-  return async text => {
+  return async (text) => {
     const { cssPath, tag, definition } = settings;
     if (cssPath) {
       await addElementCSS(cssPath);
@@ -71,9 +71,9 @@ function addElementCSS(cssPath) {
   });
   document.head.append(style);
 
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     style.onload = resolve;
-    style.onerror = error => {
+    style.onerror = (error) => {
       // eslint-disable-next-line no-console
       console.error('Error loading css ', error);
       resolve(); // Even though an error resolve so we can create the template
@@ -89,7 +89,7 @@ function addElementCSS(cssPath) {
  */
 function create(tag, attrs = {}) {
   const el = document.createElement(tag);
-  Object.keys(attrs).forEach(key => {
+  Object.keys(attrs).forEach((key) => {
     el.setAttribute(key, attrs[key]);
   });
   return el;
